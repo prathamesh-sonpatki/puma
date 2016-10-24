@@ -20,7 +20,10 @@ class TestBinder < Test::Unit::TestCase
   def test_localhost_addresses_dont_alter_listeners_for_ssl_addresses
     pend
 
-    @binder.parse(["ssl://localhost:3000"], @events)
+    key =  File.expand_path "../../examples/puma/puma_keypair.pem", __FILE__
+    cert = File.expand_path "../../examples/puma/cert_puma.pem", __FILE__
+
+    @binder.parse(["ssl://localhost:3000?key=#{key}&cert=#{cert}"], @events)
 
     assert_equal [], @binder.listeners
   end
